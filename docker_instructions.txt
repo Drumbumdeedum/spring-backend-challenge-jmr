@@ -1,0 +1,26 @@
+Open a terminal window, navigate to the project root directory where the Dockerfile is also located, then type:
+
+1. docker network create spring_demo_net
+(I'm running my Spring-Boot Java / React app on Mongodb, so first we
+need a network where the application container can communicate with the
+database container.)
+
+2. mkdir <yourPath>/mongo-data
+(We will need to store data locally unless we want to lose it on every mongo container startup/stop.
+Chose a location on your computer and replace <yourPath> with it, create a folder for data there.
+
+3. docker run --name spring-demo-mongo --network=spring_demo_net -v <yourPath>/mongo-data:/data/db -d mongo
+(Start the mongo container, connect it to our spring_demo_net network, mounting the hosts folder to the containers data/db folder.)
+
+4. docker build -t spring-boot-docker .
+(Builds our docker image, naming it spring-boot-docker. Again its important to be in the project root directory,
+otherwise the command will not find the Dockerfile, or the necessary .jar file of the application, which is inside build/libs.)
+
+5. docker run -d --name spring-demo --network=spring_demo_net -p 8080:8080  spring-boot-docker
+(Runs the application using our spring_demo_net network that the mongo container should already be using, publishes the containers 8080 port to
+the host 8080 port.)
+
+6. docker logs spring-demo
+(Check the terminal output for any events during launch, hopefull there will be no problems or errors. :))
+
+7. go to http://localhost:8080
