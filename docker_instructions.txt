@@ -9,7 +9,7 @@ database container.)
 (We will need to store data locally unless we want to lose it on every mongo container startup/stop.
 Chose a location on your computer and replace <yourPath> with it, create a folder for data there.
 
-3. docker run --name spring-demo-mongo --network=spring_demo_net -v <yourPath>/mongo-data:/data/db -d mongo
+3. docker run --name spring-demo-mongo --network=spring_demo_net -v /<yourPath>/mongo-data:/data/db -d mongo
 (Start the mongo container, connect it to our spring_demo_net network, mounting the hosts folder to the containers data/db folder.)
 
 4. docker build -t spring-boot-docker .
